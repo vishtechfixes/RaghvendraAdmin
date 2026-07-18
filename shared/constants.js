@@ -15,7 +15,7 @@ export const SHOP = {
   whatsapp:     "919929013680",
   instagram:    "",
   zomato:       "",
-  googleReview: "",
+  googleReview: "https://maps.app.goo.gl/w8mk2qrZWuEFs1Xp7",
   appLink:      "https://raghvendra.vishtechfixes.com",
 };
 
