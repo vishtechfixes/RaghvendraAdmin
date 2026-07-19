@@ -354,7 +354,7 @@ window.cbWhatsAppReceipt = function() {
     `${i.name}${i.variant?' ('+i.variant+')':''} x${i.qty} = ₹${i.price*i.qty}`
   ).join('\n');
   const msg = encodeURIComponent(
-    `🧾 *${sh.name||'Kathi Roll Hub'} — Bill Receipt*\n` +
+    `🧾 *${sh.name||'Raghvendra Sweets'} — Bill Receipt*\n` +
     `────────────────\n` +
     `👤 ${b.name}\n📱 ${b.mobile}\n` +
     `────────────────\n` +
