@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
-  <title>Admin Panel — Shri Raghvendra Sweets</title>
+  <title>Admin Panel — Raghvendra Sweets</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="css/admin.css"/>
@@ -79,7 +79,7 @@
   <div class="gate-card">
     <div class="gate-logo">🪄</div>
     <div class="gate-title">Admin Panel</div>
-    <div class="gate-sub">Shri Raghvendra Sweets — Owner Access</div>
+    <div class="gate-sub">Raghvendra Sweets — Owner Access</div>
 
     <label class="gate-label" for="gate-email">Email</label>
     <input
@@ -928,7 +928,7 @@
     const b  = ctLastBill;
     const sh = JSON.parse(localStorage.getItem(LS.shop) || '{}');
     const msg = encodeURIComponent(
-      `🧾 *${sh.name || 'Shri Raghvendra Sweets'} — Bill Receipt*\n` +
+      `🧾 *${sh.name || 'Raghvendra Sweets'} — Bill Receipt*\n` +
       `────────────────\n` +
       `👤 ${b.name}\n📱 ${b.mobile}\n` +
       `────────────────\n` +
@@ -953,7 +953,7 @@
         .c{text-align:center} .b{font-weight:700} hr{border:none;border-top:1px dashed #000;margin:8px 0}
         .row{display:flex;justify-content:space-between}
       </style></head><body>
-      <div class="c b" style="font-size:15px">${sh.name || 'Shri Raghvendra Sweets'}</div>
+      <div class="c b" style="font-size:15px">${sh.name || 'Raghvendra Sweets'}</div>
       <div class="c">${sh.loc || ''}</div>
       <hr/>
       <div class="row"><span>Customer</span><span class="b">${b.name}</span></div>
@@ -984,6 +984,8 @@
 </script>
 </body>
 </html>
+
+
 
 
 
