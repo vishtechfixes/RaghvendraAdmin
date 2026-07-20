@@ -1,4 +1,3 @@
-
 // ============================================================
 // admin/js/billing.js — Cart-based POS billing
 // ============================================================
@@ -377,7 +376,7 @@ window.cbPrintReceipt=function(){
   if(!cbLastBill)return;
   const b=cbLastBill,sh=JSON.parse(localStorage.getItem(LS.shop)||'{}');
   const rows=b.items.map(i=>`<div class="row"><span>${i.name}${i.variant?' ('+i.variant+')':''} x${i.qty}</span><span>₹${i.price*i.qty}</span></div>`).join('');
-  const html=`<html><head><title>Receipt</title><style>body{font-family:monospace;width:280px;margin:0 auto;padding:16px;font-size:13px}.c{text-align:center}.b{font-weight:700}hr{border:none;border-top:1px dashed #000;margin:8px 0}.row{display:flex;justify-content:space-between}</style></head><body><div class="c b" style="font-size:15px">${sh.name||'Kathi Roll Hub'}</div><div class="c">${sh.loc||''}</div><hr/><div class="row"><span>Customer</span><span class="b">${b.name}</span></div><div class="row"><span>Mobile</span><span>${b.mobile}</span></div><div class="row"><span>Date</span><span>${new Date().toLocaleString('en-IN')}</span></div><hr/>${rows}<hr/><div class="row"><span>Subtotal</span><span>₹${b.amt}</span></div>${b.disc>0?'<div class="row"><span>Discount</span><span>-₹'+b.disc+'</span></div>':''}<div class="row b" style="font-size:15px"><span>Final</span><span>₹${b.final}</span></div><div class="row"><span>Payment</span><span>${b.pay.toUpperCase()}</span></div><hr/><div class="row"><span>Points Earned</span><span>+${b.pointsEarned}</span></div><div class="row"><span>Total Points</span><span>${b.points}</span></div><hr/><div class="c">Dhanyawaad! Dobara aana 🙏</div></body></html>`;
+  const html=`<html><head><title>Receipt</title><style>body{font-family:monospace;width:280px;margin:0 auto;padding:16px;font-size:13px}.c{text-align:center}.b{font-weight:700}hr{border:none;border-top:1px dashed #000;margin:8px 0}.row{display:flex;justify-content:space-between}</style></head><body><div class="c b" style="font-size:15px">${sh.name||'Raghvendra Sweets'}</div><div class="c">${sh.loc||''}</div><hr/><div class="row"><span>Customer</span><span class="b">${b.name}</span></div><div class="row"><span>Mobile</span><span>${b.mobile}</span></div><div class="row"><span>Date</span><span>${new Date().toLocaleString('en-IN')}</span></div><hr/>${rows}<hr/><div class="row"><span>Subtotal</span><span>₹${b.amt}</span></div>${b.disc>0?'<div class="row"><span>Discount</span><span>-₹'+b.disc+'</span></div>':''}<div class="row b" style="font-size:15px"><span>Final</span><span>₹${b.final}</span></div><div class="row"><span>Payment</span><span>${b.pay.toUpperCase()}</span></div><hr/><div class="row"><span>Points Earned</span><span>+${b.pointsEarned}</span></div><div class="row"><span>Total Points</span><span>${b.points}</span></div><hr/><div class="c">Dhanyawaad! Dobara aana 🙏</div></body></html>`;
   const w=window.open('','_blank');w.document.write(html);w.document.close();setTimeout(()=>w.print(),250);
 };
 
@@ -478,17 +477,16 @@ function _scanFrame(video) {
           const raw = code.data.trim();
           console.log('[QR] Detected:', raw);
 
-          if (raw.startsWith('KRH:')) {
-            const mobile = raw.replace('KRH:', '').trim();
-            if (/^\d{10}$/.test(mobile)) {
-              window.closeQrScanner();
-              document.getElementById('cb-mob').value = mobile;
-              cbToast('✅ QR scan ho gaya!');
-              setTimeout(() => window.cbLookup(), 600);
-              return;
-            }
+          // Accept any 10-digit mobile number from QR
+          const rawMobile = raw.replace(/^RS:|^KRH:|^NC:|^BFC:/i, '').trim();
+          if (/^\d{10}$/.test(rawMobile)) {
+            window.closeQrScanner();
+            document.getElementById('cb-mob').value = rawMobile;
+            cbToast('✅ QR scan ho gaya!');
+            setTimeout(() => window.cbLookup(), 600);
+            return;
           }
-          document.getElementById('qr-scan-status').textContent = '⚠️ Kathi Roll Hub QR nahi — dobara try karo';
+          document.getElementById('qr-scan-status').textContent = '⚠️ Sahi QR nahi — dobara try karo';
         }
       }
     }
@@ -505,7 +503,6 @@ window.closeQrScanner = function() {
   const modal = document.getElementById('qr-scan-modal');
   if (modal) modal.classList.remove('open');
 };
-
 
 
 
