@@ -301,6 +301,9 @@ window.cbConfirm = async function() {
   let saveOk=true;
   const extra={totalDebt:newDebt};
   cbAppliedOffers.forEach(o=>{ if(o.type==='welcome') extra.couponUsed_welcome=nowIso; if(o.type==='birthday') extra.couponUsed_birthday=nowIso; });
+  // Auth debug check
+  const _authUser = auth.currentUser;
+  console.log('[cbConfirm] Auth user:', _authUser ? _authUser.email : 'NULL - NOT LOGGED IN!');
   try { await updateDoc(doc(db,'users',mob),{visits:newVisits,points:newPoints,saved:newSaved,lastVisit:nowIso,...extra}); }
   catch(e){console.warn('customer update failed',e);saveOk=false;}
   const itemsSnap=cbCart.map(c=>({name:c.name,qty:c.qty,price:c.price,variant:c.variantName||null}));
