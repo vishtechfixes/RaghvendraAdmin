@@ -1,6 +1,4 @@
 
-
-
 // ============================================================
 //  admin/js/admin.js  —  Firebase-FIRST version
 //
@@ -53,8 +51,8 @@ export const whenReady = () => _fbReady;
 // ============================================================
 //  AUTH
 // ============================================================
-export const getAdminPass = ()  => localStorage.getItem('krh_admin_pass') || 'admin123';
-export const setAdminPass = (p) => localStorage.setItem('krh_admin_pass', p);
+export const getAdminPass = ()  => localStorage.getItem('rs_admin_pass') || 'rs2025';
+export const setAdminPass = (p) => localStorage.setItem('rs_admin_pass', p);
 export const checkLogin   = (p) => p === getAdminPass();
 
 // ============================================================
@@ -258,12 +256,12 @@ export async function adjustPoints(mobile, amount, reason = 'Manual') {
   }
 
   // Points history log (LS only — not critical for Firestore)
-  const hist = JSON.parse(localStorage.getItem('krh_pts_history') || '[]');
+  const hist = JSON.parse(localStorage.getItem('rs_pts_history') || '[]');
   hist.unshift({
     mobile, name: user.name, amount, reason,
     time: new Date().toISOString()
   });
-  localStorage.setItem('krh_pts_history', JSON.stringify(hist.slice(0, 500)));
+  localStorage.setItem('rs_pts_history', JSON.stringify(hist.slice(0, 500)));
 
   return { success: true, newPoints: newP, name: user.name };
 }
@@ -659,7 +657,7 @@ export async function exportCSV(type) {
     fn = `menu-${d}.csv`;
   } else {
     h  = ['Name','Mobile','Amount','Reason','Time'];
-    r  = JSON.parse(localStorage.getItem('krh_pts_history')||'[]').map(x => [x.name,x.mobile,x.amount,x.reason,x.time]);
+    r  = JSON.parse(localStorage.getItem('rs_pts_history')||'[]').map(x => [x.name,x.mobile,x.amount,x.reason,x.time]);
     fn = `points-${d}.csv`;
   }
 
@@ -713,6 +711,4 @@ export const genCode   = (mob, type = 'welcome') => {
     ? `${pfx[type]}${sfx}${new Date().getFullYear()}`
     : `${pfx[type]}${sfx}`;
 };
-
-
 
