@@ -7,6 +7,20 @@ import {
 } from '../shared/firebase-config.js';
 import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
+
+let _authReady = false;
+let _authUser  = null;
+
+onAuthStateChanged(auth, (user) => {
+  _authReady = true;
+  _authUser  = user;
+  if (user) {
+    console.log('[Billing] Auth ready:', user.email);
+  } else {
+    console.warn('[Billing] No auth user!');
+  }
+});
+
 // ── State ────────────────────────────────────────────────────
 let cbUser = null;
 let cbCart = [];
@@ -281,9 +295,29 @@ window.cbUpdatePaymentStatus = function() {
 };
 
 // ── Confirm ───────────────────────────────────────────────────
+
+
+
+
+
 window.cbConfirm = async function() {
   if (!cbUser) { cbToast('Pehle customer dhundo'); return; }
   if (!cbCart.length) { cbToast('Cart khali hai'); return; }
+
+  // ── AUTH CHECK — billing page pe session verify ──
+  const currentUser = auth.currentUser;
+  if (!currentUser) {
+    // Wait 2 seconds for auth to restore
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    if (!auth.currentUser) {
+      cbToast('❌ Session expire. Wapas login karo!');
+      window.location.href = '../index.html';
+      return;
+    }
+  }
+  console.log('[Bill] Auth OK:', auth.currentUser.email);
+  // ── AUTH CHECK END ──
+
   const btn = document.getElementById('cb-confirm-btn');
   btn.disabled=true; btn.textContent='⏳ Saving...';
   const sub=cbSubtotal(), disc=cbTotalDiscount(sub), final=sub-disc;
@@ -299,6 +333,10 @@ window.cbConfirm = async function() {
   const newVisits=((cbUser.visits||0)+1), newPoints=((cbUser.points||0)+ptsAdd);
   const newSaved=((cbUser.saved||0)+disc), newDebt=Math.max(0,(parseFloat(cbUser.totalDebt)||0)+amountDue);
   let saveOk=true;
+
+
+
+  
   const extra={totalDebt:newDebt};
   cbAppliedOffers.forEach(o=>{ if(o.type==='welcome') extra.couponUsed_welcome=nowIso; if(o.type==='birthday') extra.couponUsed_birthday=nowIso; });
   // Auth debug check
